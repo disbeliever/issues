@@ -21,6 +21,7 @@ class Ticket(models.Model):
     project = models.ForeignKey(Project)
     text = models.CharField(max_length=1500)
     status = models.ForeignKey(TicketStatus)
+    author = models.ForeignKey(User, related_name='author')
     assigned_user = models.ForeignKey(User)
     dt_created = models.DateTimeField('date/time created')
 
