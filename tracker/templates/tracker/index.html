@@ -1,0 +1,28 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="{% static "style.css" %}"
+          type="text/css" media="screen" />
+    <script type="text/javascript">
+      function visit(url) {
+      window.location.href=url;
+      }
+    </script>
+  </head>
+  <body>
+    {% if latest_tickets %}
+    <table class="tickets">
+      <th>id</th><th>text</th>
+      {% for ticket in latest_tickets %}
+      <tr class="ticket" onclick="visit('/tracker/{{ticket.id}}/')">
+        <td class="id">{{ ticket.id }}</td><td><a href="/tracker/{{ ticket.id }}/">{{ ticket.text }}</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+    <p>No tickets are available.</p>
+    {% endif %}
+  </body>
+</html>

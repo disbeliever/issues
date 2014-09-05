@@ -1,0 +1,23 @@
+a { color: Teal; }
+
+*
+{
+  font-family: sans-serif;
+}
+
+table.tickets
+{
+  width: 50%;
+  border-spacing: 0;
+}
+
+tr.ticket:hover
+{
+  cursor: pointer;
+  background: Bisque;
+}
+
+td.id
+{
+  text-align: center;
+}
