@@ -5,10 +5,32 @@ a { color: Teal; }
   font-family: sans-serif;
 }
 
+div.menu
+{
+  float: left;
+  margin: 5px;
+}
+
+div.menu ul
+{
+  list-style-type: none;
+}
+
 table.tickets
 {
   width: 50%;
   border-spacing: 0;
+}
+
+tr.ticket td
+{
+  border-bottom: 1px solid LightGray;
+}
+
+tr.ticket:first-child td
+{
+  border-top: 1px solid black;
+  border-bottom: none;
 }
 
 tr.ticket:hover
