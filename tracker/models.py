@@ -33,3 +33,7 @@ class TicketHistory(models.Model):
     dt = models.DateTimeField('date/time')
     text = models.CharField(max_length=1500)
     user = models.ForeignKey(User)
+    status = models.ForeignKey(TicketStatus)
+
+    def __unicode__(self):
+        return "Ticket {0} {1}: {2}".format(ticket.id, dt, text)
