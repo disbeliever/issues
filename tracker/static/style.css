@@ -1,14 +1,24 @@
-a { color: Teal; }
-
 *
 {
   font-family: sans-serif;
 }
 
+html, body
+{
+  overflow: auto;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+a { color: Teal; }
+
 div.menu
 {
   float: left;
-  margin: 5px;
+  height: 100%;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 div.menu ul

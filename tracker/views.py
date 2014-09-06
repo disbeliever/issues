@@ -15,6 +15,12 @@ def index(request):
     return HttpResponse(template.render(context))
 
 
+def add(request):
+    template = loader.get_template('tracker/add.html')
+    context = RequestContext(request, {
+    })
+    return HttpResponse(template.render(context))
+
 def ticket(request, ticket_id):
     try:
         ticket = Ticket.objects.get(pk=ticket_id)
