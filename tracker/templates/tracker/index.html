@@ -1,35 +1,17 @@
-{% load staticfiles %}
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8"/>
-    <title>Latest tickets</title>
-    <link rel="stylesheet" href="{% static "style.css" %}"
-          type="text/css" media="screen" />
-    <script type="text/javascript">
-      function visit(url) {
-      window.location.href=url;
-      }
-    </script>
-  </head>
-  <body id="tickets">
-    <div class="menu">
-      <ul>
-        <li><a href="/tracker/add/">New ticket</a></li>
-        <li><a href="/tracker/my/">My tickets</a></li>
-      </ul>
-    </div>
-    {% if latest_tickets %}
-    <table class="tickets">
-      <th>id</th><th>text</th>
-      {% for ticket in latest_tickets %}
-      <tr class="ticket" onclick="visit('/tracker/{{ticket.id}}/')">
-        <td class="id">{{ ticket.id }}</td><td>{{ ticket.text }}</td>
-      </tr>
-      {% endfor %}
-    </table>
-    {% else %}
-    <p>No tickets are available.</p>
-    {% endif %}
-  </body>
-</html>
+{% extends "tracker/base.html" %}
+<body id="tickets">
+  {% block content %}
+  {% if latest_tickets %}
+  <table class="tickets">
+    <th>id</th><th>text</th>
+    {% for ticket in latest_tickets %}
+    <tr class="ticket" onclick="visit('/tracker/{{ticket.id}}/')">
+      <td class="id">{{ ticket.id }}</td><td>{{ ticket.text }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>No tickets are available.</p>
+  {% endif %}
+  {% endblock %}
+</body>
