@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, Http404
-from django.template import RequestContext, loader
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.template import RequestContext
+from django.core.urlresolvers import reverse
+from django.utils import timezone
 
-from tracker.models import Ticket
+from tracker.models import Ticket,Project
 
 
 def index(request):
@@ -15,12 +17,24 @@ def index(request):
     return render(request, 'tracker/index.html', context)
 
 
-def add(request):
-    template = loader.get_template('tracker/add.html')
+def new(request):
+    projects = Project.objects.all()
     context = RequestContext(request, {
         'title': 'Add new ticket',
+        'projects': projects,
     })
-    return render(request, 'tracker/add.html', context)
+    return render(request, 'tracker/new.html', context)
+
+
+def add(request):
+    t = Ticket(#project=Project.objects.get(pk=request.POST['ticket_project']),
+               project_id=request.POST['ticket_project'],
+               status_id=1,
+               author_id=1,
+               dt_created=timezone.now(),
+               text=request.POST['ticket_text'])
+    t.save()
+    return HttpResponseRedirect(reverse('ticket', args=(t.id,)))
 
 
 def ticket(request, ticket_id):

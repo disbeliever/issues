@@ -22,7 +22,7 @@ class Ticket(models.Model):
     text = models.CharField(max_length=1500)
     status = models.ForeignKey(TicketStatus)
     author = models.ForeignKey(User, related_name='author')
-    assigned_user = models.ForeignKey(User)
+    assigned_user = models.ForeignKey(User, blank=True, null=True)
     dt_created = models.DateTimeField('date/time created')
 
     def __unicode__(self):

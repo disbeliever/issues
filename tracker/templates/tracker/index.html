@@ -5,7 +5,7 @@
   <table class="tickets">
     <th>id</th><th>text</th>
     {% for ticket in latest_tickets %}
-    <tr class="ticket" onclick="visit('/tracker/{{ticket.id}}/')">
+    <tr class="ticket" onclick="visit('{% url 'ticket' ticket.id %}')">
       <td class="id">{{ ticket.id }}</td><td>{{ ticket.text }}</td>
     </tr>
     {% endfor %}

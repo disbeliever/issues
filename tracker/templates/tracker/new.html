@@ -2,7 +2,15 @@
 <!DOCTYPE html>
 <body id="ticket_add">
   {% block content %}
-  <form>
+  <form action="{% url 'add' %}" method="post">
+    {% csrf_token %}
+    <p><label for="ticket_project">Project:</label>
+    <p>
+      <select name="ticket_project" id="ticket_project">
+        {% for p in projects %}
+        <option value="{{ p.id }}">{{ p.name }}</option>
+        {% endfor %}
+      </select>
     <p><label for="ticket_text">Text:</label>
     <p><textarea name="ticket_text" id="ticket_text" rows="10"
                  cols="50" tabindex=""></textarea>
