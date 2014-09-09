@@ -4,12 +4,18 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
-from tracker.models import Ticket,Project
+from tracker.models import Ticket, Project
 
 
+def login(request):
+    return render(request, 'tracker/login.html')
+
+
+@login_required(login_url="/tracker/login/")
 def index(request):
-    latest_tickets = Ticket.objects.order_by('-dt_created')[:5]
+    latest_tickets = Ticket.objects.order_by('-dt_created')[:10]
     context = RequestContext(request, {
         'title': 'Latest tickets',
         'latest_tickets': latest_tickets,
@@ -17,6 +23,7 @@ def index(request):
     return render(request, 'tracker/index.html', context)
 
 
+@login_required()
 def new(request):
     projects = Project.objects.all()
     context = RequestContext(request, {
@@ -27,8 +34,7 @@ def new(request):
 
 
 def add(request):
-    t = Ticket(#project=Project.objects.get(pk=request.POST['ticket_project']),
-               project_id=request.POST['ticket_project'],
+    t = Ticket(project_id=request.POST['ticket_project'],
                status_id=1,
                author_id=1,
                dt_created=timezone.now(),
@@ -37,6 +43,17 @@ def add(request):
     return HttpResponseRedirect(reverse('ticket', args=(t.id,)))
 
 
+@login_required
 def ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     return render(request, 'tracker/ticket.html', {'ticket': ticket})
+
+
+@login_required
+def my(request, user_id):
+    latest_tickets = Ticket.objects.order_by('-dt_created')[:10]
+    context = RequestContext(request, {
+        'title': 'Latest tickets',
+        'latest_tickets': latest_tickets,
+    })
+    return render(request, 'tracker/index.html', context)

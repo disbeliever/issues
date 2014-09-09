@@ -40,7 +40,7 @@ tr.ticket td
 
 tr.ticket:first-child td
 {
-  border-top: 1px solid black;
+  border-top: 1px solid LightGray;
   border-bottom: none;
 }
 
