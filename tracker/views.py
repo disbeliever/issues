@@ -13,7 +13,7 @@ def login(request):
     return render(request, 'tracker/login.html')
 
 
-@login_required(login_url="/tracker/login/")
+@login_required
 def index(request):
     latest_tickets = Ticket.objects.order_by('-dt_created')[:10]
     context = RequestContext(request, {
@@ -23,7 +23,7 @@ def index(request):
     return render(request, 'tracker/index.html', context)
 
 
-@login_required()
+@login_required
 def new(request):
     projects = Project.objects.all()
     context = RequestContext(request, {
@@ -33,6 +33,7 @@ def new(request):
     return render(request, 'tracker/new.html', context)
 
 
+@login_required
 def add(request):
     t = Ticket(project_id=request.POST['ticket_project'],
                status_id=1,
