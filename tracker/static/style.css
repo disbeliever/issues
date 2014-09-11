@@ -11,7 +11,7 @@ html, body
   margin: 0;
 }
 
-a { color: Teal; }
+a { color: Teal; text-decoration: none }
 
 div.menu
 {
@@ -20,6 +20,8 @@ div.menu
   margin-left: 5px;
   margin-right: 5px;
 }
+
+div.menu a:hover { background-color: Bisque; }
 
 div.menu ul
 {
