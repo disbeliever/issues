@@ -51,10 +51,10 @@ def ticket(request, ticket_id):
 
 
 @login_required
-def my(request, user_id):
-    latest_tickets = Ticket.objects.order_by('-dt_created')[:10]
+def my(request):
+    my_tickets = Ticket.objects.filter(author=request.user)[:10]
     context = RequestContext(request, {
-        'title': 'Latest tickets',
-        'latest_tickets': latest_tickets,
+        'title': 'My tickets',
+        'latest_tickets': my_tickets,
     })
     return render(request, 'tracker/index.html', context)
