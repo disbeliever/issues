@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.utils import timezone
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
 from tracker.models import Ticket, Project
@@ -58,3 +59,8 @@ def my(request):
         'latest_tickets': my_tickets,
     })
     return render(request, 'tracker/index.html', context)
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('login'))

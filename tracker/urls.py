@@ -10,4 +10,5 @@ urlpatterns = patterns('',
     url(r'^login/$', django.contrib.auth.views.login, {'template_name': 'tracker/login.html'}, name='login'),
     url(r'^my/$', views.my, name='my'),
     url(r'^(?P<ticket_id>\d+)/$', views.ticket, name='ticket'),
+    url(r'^logout/$', views.logout_view, name='logout'),
 )
