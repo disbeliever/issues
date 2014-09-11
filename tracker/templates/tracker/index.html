@@ -3,10 +3,14 @@
   {% block content %}
   {% if latest_tickets %}
   <table class="tickets">
-    <th>id</th><th>text</th>
+    <th>id</th>
+    <th>text</th>
+    <th>assigned user</th>
     {% for ticket in latest_tickets %}
     <tr class="ticket" onclick="visit('{% url 'ticket' ticket.id %}')">
-      <td class="id">{{ ticket.id }}</td><td>{{ ticket.text }}</td>
+      <td class="id">{{ ticket.id }}</td>
+      <td>{{ ticket.text}}</td>
+      <td>{% firstof ticket.assigned_user.username "None" %}</td>
     </tr>
     {% endfor %}
   </table>
