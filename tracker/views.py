@@ -48,7 +48,10 @@ def add(request):
 @login_required
 def ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
-    return render(request, 'tracker/ticket.html', {'ticket': ticket})
+    return render(request, 'tracker/ticket.html', {
+        'title': 'Ticket ' + ticket_id,
+        'ticket': ticket
+        })
 
 
 @login_required
@@ -59,6 +62,7 @@ def my(request):
         'latest_tickets': my_tickets,
     })
     return render(request, 'tracker/index.html', context)
+
 
 @login_required
 def logout_view(request):

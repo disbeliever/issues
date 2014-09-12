@@ -56,3 +56,9 @@ td.id
 {
   text-align: center;
 }
+
+td.field_name
+{
+  font-weight: bold;
+  text-align: right;
+}

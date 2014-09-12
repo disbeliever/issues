@@ -1,1 +1,18 @@
 {% extends "tracker/base.html" %}
+{% block content %}
+<table>
+  <tr>
+    <td class="field_name">Project:</td><td>{{ ticket.project.name }}</td>
+  </tr>
+  <tr>
+    <td class="field_name">Author:</td><td>{{ ticket.author.username}}</td>
+  </tr>
+  <tr>
+    <td class="field_name">Assigned user:</td><td>
+      {% firstof ticket.assigned_user.username "" %}</td>
+  </tr>
+  <tr>
+    <td class="field_name">Status:</td><td>{{ticket.status.status}}</td>
+  </tr>
+</table>
+{% endblock %}
