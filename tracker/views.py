@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
-from tracker.models import Ticket, Project
+from tracker.models import Ticket, TicketStatus, TicketHistory, Project
 
 
 def login(request):
@@ -36,9 +36,13 @@ def new(request):
 
 @login_required
 def add(request):
+    if (request.user.is_authenticated()):
+        user_id = request.user.id
+    else:
+        user_id = 0
     t = Ticket(project_id=request.POST['ticket_project'],
                status_id=1,
-               author_id=1,
+               author_id=user_id,
                dt_created=timezone.now(),
                text=request.POST['ticket_text'])
     t.save()
@@ -48,11 +52,29 @@ def add(request):
 @login_required
 def ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
+    statuses = TicketStatus.objects.all()
     return render(request, 'tracker/ticket.html', {
         'title': 'Ticket ' + ticket_id,
-        'ticket': ticket
+        'ticket': ticket,
+        'statuses': statuses
         })
 
+
+@login_required
+def ticket_add_history(request, ticket_id):
+    if (request.user.is_authenticated()):
+        user_id = request.user.id
+    else:
+        user_id = 0
+    ticket = get_object_or_404(Ticket, pk=ticket_id)
+    t = TicketHistory(status_id=2, #request.POST['ticket_status'],
+                      user_id=user_id,
+                      ticket_id=ticket.id,
+                      dt=timezone.now(),
+                      text=request.POST['ticket_text']
+                      )
+    t.save()
+    return HttpResponseRedirect(reverse('ticket', args=(ticket.id,)))
 
 @login_required
 def my(request):

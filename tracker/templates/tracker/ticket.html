@@ -15,4 +15,12 @@
     <td class="field_name">Status:</td><td>{{ticket.status.status}}</td>
   </tr>
 </table>
+<form method="post" id="change_ticket"
+      action="{% url 'ticket_add_history' ticket.id %}">
+  {% csrf_token %}
+  <input type="hidden" name="ticket_id" value="{{ ticket.id }}" />
+  <p><textarea name="ticket_text" id="ticket_text" rows="10" cols="60"
+            tabindex=""></textarea>
+  <p><input type="submit" name="save" value="Save" />
+</form>
 {% endblock %}
