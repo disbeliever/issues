@@ -1,5 +1,6 @@
 {% extends "tracker/base.html" %}
 {% block content %}
+<div>
 <table>
   <tr>
     <td class="field_name">Project:</td><td>{{ ticket.project.name }}</td>
@@ -14,7 +15,22 @@
   <tr>
     <td class="field_name">Status:</td><td>{{ticket.status.status}}</td>
   </tr>
+  <tr>
+    <td class="field_name">Text:</td><td>{{ticket.text}}</td>
+  </tr>
 </table>
+</div>
+<div class="ticket_history">
+<ul class="ticket_history">
+  {% for h in history %}
+  <li>
+    <p><span class="datetime">{{ h.dt|date:"d.m.Y H:i:s" }}</span>
+      {{h.user.username}}
+    <p><span class="text">{{ h.text }}</span>
+  </li>
+  {% endfor %}
+</ul>
+</div>
 <form method="post" id="change_ticket"
       action="{% url 'ticket_add_history' ticket.id %}">
   {% csrf_token %}

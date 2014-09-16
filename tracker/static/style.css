@@ -25,8 +25,23 @@ div.menu a:hover { background-color: Bisque; }
 
 div.menu ul
 {
-  list-style-type: none;
   padding-left: 0;
+}
+
+div.ticket_history
+{
+  float: left;
+  width: 75%;
+}
+
+span.datetime
+{
+  font-weight: bold;
+}
+
+span.text
+{
+  font-size: 14px;
 }
 
 table.tickets
@@ -61,4 +76,19 @@ td.field_name
 {
   font-weight: bold;
   text-align: right;
+}
+
+ul
+{
+  list-style-type: none;
+  padding: 0;
+}
+
+ul.ticket_history li
+{
+  background-color: #e8e8e8;
+  border: solid 1px;
+  margin-bottom: 3px;
+  padding-left: 5px;
+  width: 100%;
 }

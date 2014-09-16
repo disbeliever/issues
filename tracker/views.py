@@ -52,10 +52,12 @@ def add(request):
 @login_required
 def ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
+    history = TicketHistory.objects.filter(ticket_id=ticket.id).order_by('-dt')
     statuses = TicketStatus.objects.all()
     return render(request, 'tracker/ticket.html', {
         'title': 'Ticket ' + ticket_id,
         'ticket': ticket,
+        'history': history,
         'statuses': statuses
         })
 
