@@ -36,7 +36,12 @@
   {% csrf_token %}
   <input type="hidden" name="ticket_id" value="{{ ticket.id }}" />
   <p><textarea name="ticket_text" id="ticket_text" rows="10" cols="60"
-            tabindex=""></textarea>
+               tabindex=""></textarea>
+  <p><select name="ticket_status" id="ticket_status">
+      {% for s in statuses %}
+      <option value="{{s.id}}">{{s.status}}</option>
+      {% endfor %}
+    </select>
   <p><input type="submit" name="save" value="Save" />
 </form>
 {% endblock %}

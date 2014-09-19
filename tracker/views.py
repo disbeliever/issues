@@ -69,13 +69,16 @@ def ticket_add_history(request, ticket_id):
     else:
         user_id = 0
     ticket = get_object_or_404(Ticket, pk=ticket_id)
-    t = TicketHistory(status_id=2, #request.POST['ticket_status'],
+    th = TicketHistory(status_id=request.POST['ticket_status'],
                       user_id=user_id,
                       ticket_id=ticket.id,
                       dt=timezone.now(),
                       text=request.POST['ticket_text']
                       )
-    t.save()
+    th.save()
+    ticket.status_id=request.POST['ticket_status']
+    ticket.save()
+
     return HttpResponseRedirect(reverse('ticket', args=(ticket.id,)))
 
 @login_required
