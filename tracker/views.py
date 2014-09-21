@@ -9,6 +9,9 @@ from django.contrib.auth.decorators import login_required
 
 from tracker.models import Ticket, TicketStatus, TicketHistory, Project
 
+import smtplib
+from tracker.settings import EMAIL_FROM, EMAIL_USER, EMAIL_SERVER, EMAIL_PASSWORD
+
 
 def login(request):
     return render(request, 'tracker/login.html')
@@ -78,6 +81,12 @@ def ticket_add_history(request, ticket_id):
     th.save()
     ticket.status_id=request.POST['ticket_status']
     ticket.save()
+
+    smtp = smtplib.SMTP(EMAIL_SERVER)
+    if (EMAIL_USER != '' and EMAIL_PASSWORD != ''):
+        smtp.login(EMAIL_USER, EMAIL_PASSWORD)
+    smtp.sendmail(EMAIL_FROM, request.user.email, th.text)
+
 
     return HttpResponseRedirect(reverse('ticket', args=(ticket.id,)))
 
