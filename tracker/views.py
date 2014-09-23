@@ -9,8 +9,9 @@ from django.contrib.auth.decorators import login_required
 
 from tracker.models import Ticket, TicketStatus, TicketHistory, Project
 
+from email.mime.text import MIMEText
 import smtplib
-from tracker.settings import EMAIL_FROM, EMAIL_USER, EMAIL_SERVER, EMAIL_PASSWORD
+from tracker.settings import EMAIL_FROM, EMAIL_USER, EMAIL_SERVER, EMAIL_PORT, EMAIL_PASSWORD, EMAIL_SSL
 
 
 def login(request):
@@ -73,22 +74,29 @@ def ticket_add_history(request, ticket_id):
         user_id = 0
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     th = TicketHistory(status_id=request.POST['ticket_status'],
-                      user_id=user_id,
-                      ticket_id=ticket.id,
-                      dt=timezone.now(),
-                      text=request.POST['ticket_text']
-                      )
+                       user_id=user_id,
+                       ticket_id=ticket.id,
+                       dt=timezone.now(),
+                       text=request.POST['ticket_text'])
     th.save()
-    ticket.status_id=request.POST['ticket_status']
+    ticket.status_id = request.POST['ticket_status']
     ticket.save()
 
-    smtp = smtplib.SMTP(EMAIL_SERVER)
-    if (EMAIL_USER != '' and EMAIL_PASSWORD != ''):
-        smtp.login(EMAIL_USER, EMAIL_PASSWORD)
-    smtp.sendmail(EMAIL_FROM, request.user.email, th.text)
-
+    if (EMAIL_SERVER != ''):
+        if (EMAIL_SSL):
+            smtp = smtplib.SMTP_SSL(EMAIL_SERVER, EMAIL_PORT)
+        else:
+            smtp = smtplib.SMTP(EMAIL_SERVER, EMAIL_PORT)
+        if (EMAIL_USER != '' and EMAIL_PASSWORD != ''):
+            smtp.login(EMAIL_USER, EMAIL_PASSWORD)
+        msg = MIMEText(th.text)
+        msg['From'] = EMAIL_FROM
+        msg['To'] = ticket.author.email
+        msg['Subject'] = "Issue tracker: ticket {0} - new comment".format(ticket.id)
+        smtp.sendmail(EMAIL_FROM, ticket.author.email, msg.as_string())
 
     return HttpResponseRedirect(reverse('ticket', args=(ticket.id,)))
+
 
 @login_required
 def my(request):
