@@ -92,11 +92,19 @@ def ticket_add_history(request, ticket_id):
         msg = MIMEText(th.text)
         msg['From'] = EMAIL_FROM
         msg['To'] = ticket.author.email
+        if (ticket.emails_cc != ''):
+            msg['To'] += "," + ticket.emails_cc
         msg['Subject'] = "Issue tracker: ticket {0} - new comment".format(ticket.id)
-        smtp.sendmail(EMAIL_FROM, ticket.author.email, msg.as_string())
+        smtp.sendmail(EMAIL_FROM,
+                      [x for x in ticket.emails_cc.split(',')] + [ticket.author.email],
+                      msg.as_string())
 
     return HttpResponseRedirect(reverse('ticket', args=(ticket.id,)))
 
+
+@login_required
+def ticket_add_me_to_cc(request, ticket_id):
+    return HttpResponseRedirect(reverse('ticket', args=(ticket.id,)))
 
 @login_required
 def my(request):

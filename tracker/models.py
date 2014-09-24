@@ -24,6 +24,7 @@ class Ticket(models.Model):
     author = models.ForeignKey(User, related_name='author')
     assigned_user = models.ForeignKey(User, blank=True, null=True)
     dt_created = models.DateTimeField('date/time created')
+    emails_cc = models.CharField(max_length=2000)
 
     def __unicode__(self):
         return "{0}:".format(self.id, self.text[0:100])

@@ -11,5 +11,6 @@ urlpatterns = patterns('',
     url(r'^my/$', views.my, name='my'),
     url(r'^(?P<ticket_id>\d+)/$', views.ticket, name='ticket'),
     url(r'^(?P<ticket_id>\d+)/add_history/$', views.ticket_add_history, name='ticket_add_history'),
+    url(r'^(?P<ticket_id>\d+)/add_me_to_cc/$', views.ticket_add_me_to_cc, name='ticket_add_me_to_cc'),
     url(r'^logout/$', views.logout_view, name='logout'),
 )
