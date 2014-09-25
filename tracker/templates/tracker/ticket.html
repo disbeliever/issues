@@ -42,7 +42,11 @@
                tabindex=""></textarea>
   <p><select name="ticket_status" id="ticket_status">
       {% for s in statuses %}
+      {% ifequal ticket.status_id s.id %}
+      <option selected value="{{s.id}}">{{s.status}}</option>
+      {% else %}
       <option value="{{s.id}}">{{s.status}}</option>
+      {% endifequal %}
       {% endfor %}
     </select>
   <p><input type="submit" name="save" value="Save" />
