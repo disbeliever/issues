@@ -20,16 +20,19 @@ def login(request):
 
 @login_required
 def index(request):
-    if ('ticket_status_id' in request.POST):
-        latest_tickets = Ticket.objects.filter(status__id=request.POST['ticket_status_id']).order_by('-dt_created')[:10]
-    else:
+    if ('ticket_status_id' not in request.POST or
+        request.POST['ticket_status_id'] == ''):
         latest_tickets = Ticket.objects.order_by('-dt_created')[:10]
+        filter_status_id = None
+    else:
+        latest_tickets = Ticket.objects.filter(status__id=request.POST['ticket_status_id']).order_by('-dt_created')[:10]
+        filter_status_id = int(request.POST['ticket_status_id'])
     statuses = TicketStatus.objects.all()
     context = RequestContext(request, {
         'title': 'Latest tickets',
         'latest_tickets': latest_tickets,
         'statuses': statuses,
-        'filter_status_id': request.POST['ticket_status_id'] if ('ticket_status_id' in request.POST) else None
+        'filter_status_id': filter_status_id
     })
     return render(request, 'tracker/index.html', context)
 
