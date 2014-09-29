@@ -16,7 +16,16 @@
     <td class="field_name">Status:</td><td>{{ticket.status.status}}</td>
   </tr>
   <tr>
-    <td class="field_name">CC:</td><td>{{ticket.emails_cc}}</td>
+    <td class="field_name">CC:</td>
+    <td>{% for email in ticket_emails %}
+      <a href="mailto:{{email}}">{{ email }}</a>{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    </td>
+    {% if user.email not in ticket_emails %}
+    <td>
+      <a href="{% url 'ticket_add_me_to_cc' ticket.id %}">Add me</a>
+    </td>
+    {% endif %}
   </tr>
   <tr>
     <td class="field_name">Text:</td><td>{{ticket.text}}</td>

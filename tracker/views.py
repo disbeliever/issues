@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 from tracker.models import Ticket, TicketStatus, TicketHistory, Project
 
@@ -67,11 +68,14 @@ def ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     history = TicketHistory.objects.filter(ticket_id=ticket.id).order_by('-dt')
     statuses = TicketStatus.objects.all()
+    ticket_emails = [x.strip() for x in ticket.emails_cc.split(',')]
+    print ticket_emails
     return render(request, 'tracker/ticket.html', {
         'title': 'Ticket ' + ticket_id,
         'ticket': ticket,
         'history': history,
-        'statuses': statuses
+        'statuses': statuses,
+        'ticket_emails': ticket_emails
         })
 
 
@@ -105,7 +109,8 @@ def ticket_add_history(request, ticket_id):
             msg['To'] += "," + ticket.emails_cc
         msg['Subject'] = "Issue tracker: ticket {0} - new comment".format(ticket.id)
         smtp.sendmail(EMAIL_FROM,
-                      [x for x in ticket.emails_cc.split(',')] + [ticket.author.email],
+                      [x for x in ticket.emails_cc.split(',')] +
+                      [ticket.author.email],
                       msg.as_string())
 
     return HttpResponseRedirect(reverse('ticket', args=(ticket.id,)))
@@ -113,7 +118,13 @@ def ticket_add_history(request, ticket_id):
 
 @login_required
 def ticket_add_me_to_cc(request, ticket_id):
-    return HttpResponseRedirect(reverse('ticket', args=(ticket.id,)))
+    user = get_object_or_404(User, pk=request.user.id)
+    ticket = get_object_or_404(Ticket, pk=ticket_id)
+    if (user.email not in ticket.emails_cc):
+        ticket.emails_cc += ", " + user.email
+        ticket.save()
+    return HttpResponseRedirect(reverse('ticket', args=(ticket_id,)))
+
 
 @login_required
 def my(request):

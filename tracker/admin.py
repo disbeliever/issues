@@ -1,5 +1,5 @@
 from django.contrib import admin
-from tracker.models import Project,Ticket,TicketStatus
+from tracker.models import Project, Ticket, TicketStatus
 
 # Register your models here.
 admin.site.register(Project)
