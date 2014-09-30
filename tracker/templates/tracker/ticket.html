@@ -21,7 +21,7 @@
       <a href="mailto:{{email}}">{{ email }}</a>{% if not forloop.last %},{% endif %}
       {% endfor %}
     </td>
-    {% if user.email not in ticket_emails %}
+    {% if user.email not in ticket_emails and user.email != ticket.author.email %}
     <td>
       <a href="{% url 'ticket_add_me_to_cc' ticket.id %}">Add me</a>
     </td>
