@@ -69,7 +69,6 @@ def ticket(request, ticket_id):
     history = TicketHistory.objects.filter(ticket_id=ticket.id).order_by('-dt')
     statuses = TicketStatus.objects.all()
     ticket_emails = [x.strip() for x in ticket.emails_cc.split(',')]
-    print ticket_emails
     return render(request, 'tracker/ticket.html', {
         'title': 'Ticket ' + ticket_id,
         'ticket': ticket,

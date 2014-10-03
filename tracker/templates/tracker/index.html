@@ -7,7 +7,6 @@
     <select name="ticket_status_id" id="ticket_status_id">
       <option value="">all</option>
       {% for s in statuses %}
-      {{ filter_status_id }} {{ s.id }}
       {% ifequal filter_status_id s.id %}
       <option selected value="{{s.id}}">{{s.status}}</option>
       {% else %}

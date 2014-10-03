@@ -11,12 +11,23 @@ html, body
   margin: 0;
 }
 
+body
+{
+  display: flex;
+  flex: 1;
+}
+
 a { color: Teal; text-decoration: none }
+
+div.content
+{
+  flex: 1;
+}
 
 div.menu
 {
-  float: left;
-  height: 100%;
+  background-color: #F0F0F0;
+  flex: 0 0 6em;
   margin-left: 5px;
   margin-right: 5px;
 }
@@ -46,7 +57,7 @@ span.text
 
 table.tickets
 {
-  width: 50%;
+  width: 80%;
   border-spacing: 0;
 }
 
