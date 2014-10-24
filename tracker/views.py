@@ -23,17 +23,31 @@ def login(request):
 def index(request):
     if ('ticket_status_id' not in request.POST or
         request.POST['ticket_status_id'] == ''):
-        latest_tickets = Ticket.objects.order_by('-dt_created')[:10]
+        latest_tickets = Ticket.objects
         filter_status_id = None
     else:
-        latest_tickets = Ticket.objects.filter(status__id=request.POST['ticket_status_id']).order_by('-dt_created')[:10]
+        latest_tickets = Ticket.objects.filter(status__id=request.POST['ticket_status_id'])
         filter_status_id = int(request.POST['ticket_status_id'])
+
+    if ('project_id' not in request.POST or
+        request.POST['project_id'] == ''):
+        filter_project_id = None
+    else:
+        filter_project_id = int(request.POST['project_id'])
+        latest_tickets = latest_tickets.filter(project__id=request.POST['project_id'])
+
+    latest_tickets = latest_tickets.order_by('-dt_created')[:10]
+
+
     statuses = TicketStatus.objects.all()
+    projects = Project.objects.all()
     context = RequestContext(request, {
         'title': 'Latest tickets',
         'latest_tickets': latest_tickets,
         'statuses': statuses,
-        'filter_status_id': filter_status_id
+        'projects': projects,
+        'filter_status_id': filter_status_id,
+        'filter_project_id': filter_project_id
     })
     return render(request, 'tracker/index.html', context)
 

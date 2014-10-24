@@ -22,6 +22,7 @@ a { color: Teal; text-decoration: none }
 div.content
 {
   flex: 1;
+  padding-top: 3px;
 }
 
 div.menu

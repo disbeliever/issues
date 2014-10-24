@@ -3,7 +3,18 @@
   {% block content %}
   <form method="post" id="filter" action="{% url 'index' %}">
     {% csrf_token %}
-    <label for="ticket_status_id">Status:</label>
+    Project:
+    <select name="project_id" id="project_id">
+      <option value="">all</option>
+      {% for p in projects %}
+      {% ifequal filter_project_id p.id %}
+      <option selected value="{{p.id}}">{{p.name}}</option>
+      {% else %}
+      <option value="{{p.id}}">{{p.name}}</option>
+      {% endifequal %}
+      {% endfor %}
+    </select>
+    Status:
     <select name="ticket_status_id" id="ticket_status_id">
       <option value="">all</option>
       {% for s in statuses %}
