@@ -46,6 +46,16 @@ div.ticket_history
   width: 75%;
 }
 
+form#filter
+{
+  margin-left: 1em;
+}
+
+input[type=submit]
+{
+  margin: 0 em;
+}
+
 span.datetime
 {
   font-weight: bold;
@@ -65,6 +75,7 @@ table.tickets
 tr.ticket td
 {
   border-bottom: 1px solid LightGray;
+  padding: .2em 0.5em;
 }
 
 tr.ticket:first-child td

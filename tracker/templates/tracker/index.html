@@ -1,42 +1,46 @@
 {% extends "tracker/base.html" %}
 <body id="tickets">
   {% block content %}
-  <form method="post" id="filter" action="{% url 'index' %}">
-    {% csrf_token %}
-    Project:
-    <select name="project_id" id="project_id">
-      <option value="">all</option>
-      {% for p in projects %}
-      {% ifequal filter_project_id p.id %}
-      <option selected value="{{p.id}}">{{p.name}}</option>
-      {% else %}
-      <option value="{{p.id}}">{{p.name}}</option>
-      {% endifequal %}
-      {% endfor %}
-    </select>
-    Status:
-    <select name="ticket_status_id" id="ticket_status_id">
-      <option value="">all</option>
-      {% for s in statuses %}
-      {% ifequal filter_status_id s.id %}
-      <option selected value="{{s.id}}">{{s.status}}</option>
-      {% else %}
-      <option value="{{s.id}}">{{s.status}}</option>
-      {% endifequal %}
-      {% endfor %}
-      <input type="submit" name="apply_filter" value="filter" />
-    </select>
-  </form>
+  <div id="filter">
+    <form method="post" id="filter" action="{% url 'index' %}">
+      {% csrf_token %}
+      Project:
+      <select name="project_id" id="project_id">
+        <option value="">all</option>
+        {% for p in projects %}
+        {% ifequal filter_project_id p.id %}
+        <option selected value="{{p.id}}">{{p.name}}</option>
+        {% else %}
+        <option value="{{p.id}}">{{p.name}}</option>
+        {% endifequal %}
+        {% endfor %}
+      </select>
+      Status:
+      <select name="ticket_status_id" id="ticket_status_id">
+        <option value="">all</option>
+        {% for s in statuses %}
+        {% ifequal filter_status_id s.id %}
+        <option selected value="{{s.id}}">{{s.status}}</option>
+        {% else %}
+        <option value="{{s.id}}">{{s.status}}</option>
+        {% endifequal %}
+        {% endfor %}
+        <input type="submit" name="apply_filter" value="filter" />
+      </select>
+    </form>
+  </div>
   {% if latest_tickets %}
   <table class="tickets">
     <th>id</th>
+    <th>project</th>
     <th>text</th>
     <th>status</th>
     <th>assigned user</th>
     {% for ticket in latest_tickets %}
     <tr class="ticket" onclick="visit('{% url 'ticket' ticket.id %}')">
       <td class="id">{{ ticket.id }}</td>
-      <td>{{ ticket.text}}</td>
+      <td>{{ ticket.project }}</td>
+      <td>{{ ticket.text|truncatechars:200 }}</td>
       <td>{{ ticket.status.status }}</td>
       <td>{% firstof ticket.assigned_user.username "None" %}</td>
     </tr>
