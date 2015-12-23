@@ -57,8 +57,7 @@ from settings_custom import DATABASES
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
+from settings_custom import LANGUAGE_CODE
 from settings_custom import TIME_ZONE
 
 USE_I18N = True
