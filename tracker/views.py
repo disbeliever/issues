@@ -16,7 +16,9 @@ from tracker.settings import EMAIL_FROM, EMAIL_USER, EMAIL_SERVER, EMAIL_PORT, E
 
 
 def login(request):
-    return render(request, 'tracker/login.html')
+    return render(request, 'tracker/login.html', {
+        'next': request.GET['next']
+        })
 
 
 @login_required

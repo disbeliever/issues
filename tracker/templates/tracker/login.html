@@ -16,7 +16,7 @@
         </tr>
       </table>
       <input type="submit" name="login" value="Login" />
-      <input type="hidden" name="next" value="{% url 'index' %}" /> --
+      <input type="hidden" name="next" value="{{ next }}" />
     </form>
     {% endblock %}
 </html>
