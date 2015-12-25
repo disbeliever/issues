@@ -4,17 +4,29 @@
   {% block content %}
   <form action="{% url 'add' %}" method="post">
     {% csrf_token %}
-    <p><label for="ticket_project">Project:</label>
     <p>
+      <label for="ticket_project">Project:</label>
       <select name="ticket_project" id="ticket_project">
         {% for p in projects %}
         <option value="{{ p.id }}">{{ p.name }}</option>
         {% endfor %}
       </select>
-    <p><label for="ticket_text">Text:</label>
+    </p>
+
+    <p>
+      <label for="ticket_user">User:</label>
+      <select name="ticket_user" id="ticket_user">
+        {% for u in users %}
+        <option value="{{ u.id }}">{{ u.username }}</option>
+        {% endfor %}
+      </select>
+    </p>
+
+    <p><label for="ticket_text">Text:</label></p>
     <p><textarea name="ticket_text" id="ticket_text" rows="10"
                  cols="50" tabindex=""></textarea>
-    <p><input type="submit" value="Add" />
+    </p>
+    <p><input type="submit" value="Add" /></p>
   </form>
   {% endblock %}
 </body>

@@ -57,9 +57,11 @@ def index(request):
 @login_required
 def new(request):
     projects = Project.objects.all()
+    users = User.objects.all()
     context = RequestContext(request, {
         'title': 'Add new ticket',
         'projects': projects,
+        'users': users
     })
     return render(request, 'tracker/new.html', context)
 
@@ -73,6 +75,7 @@ def add(request):
     t = Ticket(project_id=request.POST['ticket_project'],
                status_id=1,
                author_id=user_id,
+               assigned_user_id=request.POST['ticket_user'],
                dt_created=timezone.now(),
                text=request.POST['ticket_text'])
     t.save()
