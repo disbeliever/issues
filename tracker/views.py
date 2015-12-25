@@ -153,6 +153,14 @@ def my(request):
     })
     return render(request, 'tracker/index.html', context)
 
+@login_required
+def assigned_to_me(request):
+    tickets_assigned_to_me = Ticket.objects.filter(assigned_user=request.user)[:10]
+    context = RequestContext(request, {
+        'title': 'Assigned to me',
+        'latest_tickets': tickets_assigned_to_me,
+    })
+    return render(request, 'tracker/index.html', context)
 
 @login_required
 def logout_view(request):
