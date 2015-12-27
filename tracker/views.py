@@ -40,7 +40,6 @@ def index(request):
 
     latest_tickets = latest_tickets.order_by('-dt_created')[:10]
 
-
     statuses = TicketStatus.objects.all()
     projects = Project.objects.all()
     context = RequestContext(request, {
@@ -111,6 +110,7 @@ def ticket_add_history(request, ticket_id):
                        text=request.POST['ticket_text'])
     th.save()
     ticket.status_id = request.POST['ticket_status']
+    ticket.dt_modified = timezone.now()
     ticket.save()
 
     if (EMAIL_SERVER != ''):
@@ -153,6 +153,7 @@ def my(request):
     })
     return render(request, 'tracker/index.html', context)
 
+
 @login_required
 def assigned_to_me(request):
     tickets_assigned_to_me = Ticket.objects.filter(assigned_user=request.user)[:10]
@@ -161,6 +162,7 @@ def assigned_to_me(request):
         'latest_tickets': tickets_assigned_to_me,
     })
     return render(request, 'tracker/index.html', context)
+
 
 @login_required
 def logout_view(request):
