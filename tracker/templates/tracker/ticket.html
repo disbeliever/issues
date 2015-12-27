@@ -6,6 +6,9 @@
     <td class="field_name">Created:</td><td>{{ ticket.dt_created|date:"DATETIME_FORMAT" }}</td>
   </tr>
   <tr>
+    <td class="field_name">Modified:</td><td>{% firstof ticket.dt_modified "" %}</td>
+  </tr>
+  <tr>
     <td class="field_name">Project:</td><td>{{ ticket.project.name }}</td>
   </tr>
   <tr>
