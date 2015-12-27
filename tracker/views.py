@@ -120,7 +120,7 @@ def ticket_add_history(request, ticket_id):
             smtp = smtplib.SMTP(EMAIL_SERVER, EMAIL_PORT)
         if (EMAIL_USER != '' and EMAIL_PASSWORD != ''):
             smtp.login(EMAIL_USER, EMAIL_PASSWORD)
-        msg = MIMEText(th.text)
+        msg = MIMEText(th.text, _charset='utf-8')
         msg['From'] = EMAIL_FROM
         msg['To'] = ticket.author.email
         if (ticket.emails_cc != ''):
